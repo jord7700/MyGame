@@ -1,8 +1,8 @@
-#testing git out
 extends Node
 
 export (PackedScene) var Mob
 var score
+var highScore = 0
 
 # class member variables go here, for example:
 # var a = 2
@@ -20,10 +20,13 @@ func _ready():
 
 
 func game_over():
+	#save_game()
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	$HUD.show_game_over()
-#	set_process(true)
+	if score > highScore:
+		highScore = score
+	$HUD.update_highScore(highScore)
 
 func new_game():
 	score = 0
@@ -56,3 +59,10 @@ func _on_ScoreTimer_timeout():
 func _on_StartTimer_timeout():
 	$MobTimer.start()
 	$ScoreTimer.start()
+
+
+func save():
+	var save_dict = {
+		"highScore" : score
+	}
+	return save_dict

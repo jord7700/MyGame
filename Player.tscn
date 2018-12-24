@@ -7,29 +7,29 @@
 [ext_resource path="res://art/player01.png" type="Texture" id=5]
 [ext_resource path="res://art/player02.png" type="Texture" id=6]
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0, 1 )
 colors = PoolColorArray( 0, 0, 0, 0.392157, 0.617188, 0.0458069, 0.0458069, 0 )
 
-[sub_resource type="GradientTexture" id=4]
+[sub_resource type="GradientTexture" id=2]
 
 flags = 4
-gradient = SubResource( 3 )
+gradient = SubResource( 1 )
 width = 2048
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=3]
 
 min_value = 0.0
 max_value = 1.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.5 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=7]
+[sub_resource type="CurveTexture" id=4]
 
 flags = 4
 width = 2048
-curve = SubResource( 6 )
+curve = SubResource( 3 )
 
 [sub_resource type="ParticlesMaterial" id=5]
 
@@ -60,8 +60,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 7 )
-color_ramp = SubResource( 4 )
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -71,7 +71,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Gravity", "Scale" ]
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=6]
 
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ) ],
@@ -85,7 +85,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=2]
+[sub_resource type="CapsuleShape2D" id=7]
 
 custom_solver_bias = 0.0
 radius = 5.77579
@@ -111,7 +111,6 @@ speed = 400
 
 [node name="Trail" type="Particles2D" parent="." index="0"]
 
-scale = Vector2( 1, 1 )
 emitting = true
 amount = 10
 lifetime = 1.0
@@ -134,7 +133,7 @@ _sections_unfolded = [ "Drawing", "Process Material", "Textures", "Time" ]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="1"]
 
-frames = SubResource( 1 )
+frames = SubResource( 6 )
 animation = "right"
 _sections_unfolded = [ "Transform" ]
 
@@ -142,7 +141,7 @@ _sections_unfolded = [ "Transform" ]
 
 position = Vector2( 0.460433, 0.53851 )
 scale = Vector2( 5.48271, 2.07088 )
-shape = SubResource( 2 )
+shape = SubResource( 7 )
 
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 

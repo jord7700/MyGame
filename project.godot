@@ -15,6 +15,10 @@ run/main_scene="res://Main.tscn"
 boot_splash/fullsize=false
 config/icon="res://icon.png"
 
+[autoload]
+
+save="res://save.gd"
+
 [display]
 
 window/size/width=480
