@@ -24,7 +24,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 script = ExtResource( 1 )
-_sections_unfolded = [ "Pause" ]
+_sections_unfolded = [ "Material", "Pause" ]
 
 [node name="ColorRect" type="ColorRect" parent="." index="0"]
 
@@ -68,6 +68,7 @@ group = null
 text = "RESUME"
 flat = false
 align = 1
+_sections_unfolded = [ "Visibility" ]
 
 [node name="ControlsButton" type="Button" parent="." index="2"]
 
@@ -91,6 +92,7 @@ group = null
 text = "CONTROLS"
 flat = false
 align = 1
+_sections_unfolded = [ "Visibility" ]
 
 [node name="Label" type="Label" parent="ControlsButton" index="0"]
 
@@ -138,7 +140,6 @@ group = null
 text = "EXIT"
 flat = false
 align = 1
-_sections_unfolded = [ "Margin" ]
 
 [connection signal="pressed" from="Resume" to="." method="_on_Resume_pressed"]
 

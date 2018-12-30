@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://Mob.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Pause Menu.tscn" type="PackedScene" id=4]
-[ext_resource path="res://HUD.tscn" type="PackedScene" id=5]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Curve2D" id=1]
 
@@ -64,11 +63,7 @@ autostart = false
 position = Vector2( 240, 450 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="Pause Menu" parent="." index="6" instance=ExtResource( 4 )]
-
-visible = false
-
-[node name="MobPath" type="Path2D" parent="." index="7"]
+[node name="MobPath" type="Path2D" parent="." index="6"]
 
 self_modulate = Color( 0.5, 0.6, 1, 0.7 )
 position = Vector2( 25.7879, 29.8102 )
@@ -86,7 +81,7 @@ cubic_interp = true
 loop = true
 lookahead = 4.0
 
-[node name="HUD" parent="." index="8" instance=ExtResource( 5 )]
+[node name="HUD" parent="." index="7" instance=ExtResource( 4 )]
 
 [connection signal="hit" from="Player" to="." method="game_over"]
 

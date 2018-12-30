@@ -2,13 +2,16 @@ extends Node
 
 export (PackedScene) var Mob
 var score
-var highScore = 0
+var highScore
+const SAVE_PATH = "res://save.json"
 
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
 
 func _ready():
+	load_game()
+	$HUD.update_highScore(highScore)
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
 	pass
@@ -27,6 +30,7 @@ func game_over():
 	if score > highScore:
 		highScore = score
 	$HUD.update_highScore(highScore)
+	save_game()
 
 func new_game():
 	score = 0
@@ -62,7 +66,38 @@ func _on_StartTimer_timeout():
 
 
 func save():
-	var save_dict = {
-		"highScore" : score
-	}
+	var save_dict = highScore
 	return save_dict
+	
+func save_game():
+	#get save data from persistent nodes
+	var save_dict = save()
+	# create a file
+	var save_file = File.new()
+	save_file.open(SAVE_PATH, File.WRITE)
+	#serialize the data fictionary to JSON
+	save_file.store_line(str(save_dict))
+	save_file.close()
+	pass
+	
+	# Note: This can be called from anywhere inside the tree. This function is path independent.
+func load_game():
+	var save_game = File.new()
+	if not save_game.file_exists(SAVE_PATH):
+		return
+	
+	save_game.open(SAVE_PATH, File.READ)
+	var data = save_game.get_line()
+	highScore = int(data)
+	save_game.close()
+
+
+
+
+
+
+
+
+
+
+

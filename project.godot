@@ -17,7 +17,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-save="res://save.gd"
+save="*res://save.gd"
 
 [display]
 
