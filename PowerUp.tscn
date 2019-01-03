@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://PowerUp.gd" type="Script" id=1]
+[ext_resource path="res://art/powerUp.png" type="Texture" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 10.1176
+
+[node name="PowerUp" type="Area2D"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+script = ExtResource( 1 )
+_sections_unfolded = [ "Collision" ]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="powerUpSprite" type="Sprite" parent="." index="0"]
+
+position = Vector2( -0.0240117, -1.05609 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+
+position = Vector2( -0.0492963, -1.09721 )
+scale = Vector2( 0.780959, 0.787392 )
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Timer" type="Timer" parent="." index="2"]
+
+process_mode = 1
+wait_time = 5.0
+one_shot = true
+autostart = false
+
+[connection signal="area_shape_entered" from="." to="." method="_on_PowerUp_area_shape_entered"]
+
+[connection signal="body_entered" from="." to="." method="_on_PowerUp_body_entered"]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
+

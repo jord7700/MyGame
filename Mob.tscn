@@ -1,30 +1,30 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Mob.gd" type="Script" id=1]
-[ext_resource path="res://art/enemyFly0.png" type="Texture" id=2]
-[ext_resource path="res://art/enemyFly1.png" type="Texture" id=3]
-[ext_resource path="res://art/enemyWalk0.png" type="Texture" id=4]
-[ext_resource path="res://art/enemyWalk1.png" type="Texture" id=5]
-[ext_resource path="res://art/enemySwim0.png" type="Texture" id=6]
-[ext_resource path="res://art/enemySwim1.png" type="Texture" id=7]
+[ext_resource path="res://art/enemyWalk0.png" type="Texture" id=2]
+[ext_resource path="res://art/enemyWalk1.png" type="Texture" id=3]
+[ext_resource path="res://art/enemySwim0.png" type="Texture" id=4]
+[ext_resource path="res://art/enemySwim1.png" type="Texture" id=5]
+[ext_resource path="res://art/enemyFly0.png" type="Texture" id=6]
+[ext_resource path="res://art/enemyFly1.png" type="Texture" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
 "loop": true,
-"name": "fly",
-"speed": 3.0
+"name": "walk",
+"speed": 4.0
 }, {
 "frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
 "loop": true,
-"name": "walk",
+"name": "swim",
 "speed": 4.0
 }, {
 "frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": true,
-"name": "swim",
-"speed": 4.0
+"name": "fly",
+"speed": 3.0
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -55,6 +55,7 @@ linear_damp = -1.0
 angular_velocity = 0.0
 angular_damp = -1.0
 script = ExtResource( 1 )
+_sections_unfolded = [ "Linear" ]
 __meta__ = {
 "_edit_group_": true
 }
@@ -64,8 +65,7 @@ max_speed = 250
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="0"]
 
 frames = SubResource( 1 )
-animation = "swim"
-frame = 1
+animation = "fly"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]

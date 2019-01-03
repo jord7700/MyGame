@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://Mob.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://HUD.tscn" type="PackedScene" id=4]
+[ext_resource path="res://PowerUp.tscn" type="PackedScene" id=4]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=5]
 
 [sub_resource type="Curve2D" id=1]
 
@@ -12,7 +13,7 @@ _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, -27.0752, -29.7827, 0, 0, 0, 0, 453.961, -31.5877, 0, 0, 0, 0, 454.863, 689.515, 0, 0, 0, 0, -26.1727, 690.417, 0, 0, 0, 0, -27.9777, -29.7827, 0, 0, 0, 0, -27.0752, -29.7827, 0, 0, 0, 0, -25.7879, -29.8102, 0, 0, 0, 0, -25.7879, -29.8102, 0, 0, 0, 0, 204.212, -29.8102, 0, 0, 0, 0, 454.212, -29.8102, 0, 0, 0, 0, 454.212, 330.19, 0, 0, 0, 0, 454.212, 330.19 )
 }
 
-[node name="Main" type="Node" index="0"]
+[node name="Main" type="Node"]
 
 script = ExtResource( 1 )
 Mob = ExtResource( 2 )
@@ -37,37 +38,51 @@ color = Color( 0.38588, 0.574235, 0.816406, 1 )
 
 position = Vector2( 80, 80 )
 
-[node name="MobTimer" type="Timer" parent="." index="2"]
+[node name="PowerUp" parent="." index="2" instance=ExtResource( 4 )]
+
+position = Vector2( 226.412, 78.8928 )
+
+[node name="MobTimer" type="Timer" parent="." index="3"]
 
 process_mode = 1
-wait_time = 0.5
+wait_time = 0.6
 one_shot = false
 autostart = false
 
-[node name="ScoreTimer" type="Timer" parent="." index="3"]
+[node name="PowerSpawnTimer" type="Timer" parent="." index="4"]
+
+process_mode = 1
+wait_time = 15.0
+one_shot = true
+autostart = false
+
+[node name="ScoreTimer" type="Timer" parent="." index="5"]
 
 process_mode = 1
 wait_time = 1.0
 one_shot = false
 autostart = false
 
-[node name="StartTimer" type="Timer" parent="." index="4"]
+[node name="StartTimer" type="Timer" parent="." index="6"]
 
 process_mode = 1
 wait_time = 2.0
 one_shot = true
 autostart = false
 
-[node name="StartPosition" type="Position2D" parent="." index="5"]
+[node name="StartPosition" type="Position2D" parent="." index="7"]
 
 position = Vector2( 240, 450 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="MobPath" type="Path2D" parent="." index="6"]
+[node name="MobPath" type="Path2D" parent="." index="8"]
 
 self_modulate = Color( 0.5, 0.6, 1, 0.7 )
 position = Vector2( 25.7879, 29.8102 )
 curve = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath" index="0"]
 
@@ -81,11 +96,17 @@ cubic_interp = true
 loop = true
 lookahead = 4.0
 
-[node name="HUD" parent="." index="7" instance=ExtResource( 4 )]
+[node name="HUD" parent="." index="9" instance=ExtResource( 5 )]
 
 [connection signal="hit" from="Player" to="." method="game_over"]
 
+[connection signal="pickUp" from="PowerUp" to="." method="_on_PowerUp_pickUp"]
+
+[connection signal="timeOut" from="PowerUp" to="." method="_on_PowerUp_timeOut"]
+
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
+
+[connection signal="timeout" from="PowerSpawnTimer" to="." method="_on_PowerSpawnTimer_timeout"]
 
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
 

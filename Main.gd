@@ -3,7 +3,9 @@ extends Node
 export (PackedScene) var Mob
 var score
 var highScore
+var speedOffset
 const SAVE_PATH = "res://save.json"
+
 
 # class member variables go here, for example:
 # var a = 2
@@ -11,6 +13,7 @@ const SAVE_PATH = "res://save.json"
 
 func _ready():
 	load_game()
+	speedOffset = 0
 	$HUD.update_highScore(highScore)
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
@@ -21,21 +24,23 @@ func _ready():
 #	# Update game logic here.
 #	pass
 
-
 func game_over():
 	#save_game()
 	$ScoreTimer.stop()
 	$MobTimer.stop()
+	$PowerSpawnTimer.stop()
 	$HUD.show_game_over()
 	if score > highScore:
 		highScore = score
 	$HUD.update_highScore(highScore)
+	$PowerUp.hide()
 	save_game()
 
 func new_game():
 	score = 0
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
+	$PowerSpawnTimer.start()
 	$HUD.update_score(score)
 	$HUD.show_message("Get Ready")
 
@@ -53,17 +58,18 @@ func _on_MobTimer_timeout():
 	direction += rand_range(-PI / 4, PI / 4)
 	mob.rotation = direction
     # Choose the velocity.
-	mob.set_linear_velocity(Vector2(rand_range(mob.min_speed, mob.max_speed), 0).rotated(direction))
+	if speedOffset == 1:
+		mob.set_linear_velocity(Vector2(rand_range(mob.min_speed / 2, mob.max_speed / 2), 0).rotated(mob.rotation))
+	else: 
+		mob.set_linear_velocity(Vector2(rand_range(mob.min_speed, mob.max_speed), 0).rotated(direction))
 
 func _on_ScoreTimer_timeout():
 	score += 1
 	$HUD.update_score(score)
 
-
 func _on_StartTimer_timeout():
 	$MobTimer.start()
 	$ScoreTimer.start()
-
 
 func save():
 	var save_dict = highScore
@@ -91,13 +97,19 @@ func load_game():
 	highScore = int(data)
 	save_game.close()
 
+func _on_PowerUp_pickUp():
+	speedOffset = 1
+	for i in range(0, get_child_count()):
+		var m = get_child(i)
+		if (m.get_class() == "RigidBody2D"):
+			m.set_linear_velocity(Vector2(m.linear_velocity[0] / 2, m.linear_velocity[1]))
+	
 
+func _on_PowerUp_timeOut():
+	speedOffset = 0
+	$PowerSpawnTimer.start()
+	
 
-
-
-
-
-
-
-
-
+func _on_PowerSpawnTimer_timeout():
+	var pos = Vector2(rand_range(0, $Player.screensize.x - 1), rand_range(0, $Player.screensize.y - 1))
+	$PowerUp.spawn(pos)
