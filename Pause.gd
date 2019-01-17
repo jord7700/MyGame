@@ -27,7 +27,6 @@ func _process(delta):
 		
 	pass
 
-
 func _on_Resume_pressed():
 	hide()
 	get_tree().paused = false

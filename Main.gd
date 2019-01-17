@@ -2,8 +2,10 @@ extends Node
 
 export (PackedScene) var Mob
 var score
+var level
 var highScore
 var speedOffset
+var progress
 const SAVE_PATH = "res://save.json"
 
 
@@ -38,6 +40,8 @@ func game_over():
 
 func new_game():
 	score = 0
+	level = 1
+	progress = 0
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	$PowerSpawnTimer.start()
@@ -66,10 +70,15 @@ func _on_MobTimer_timeout():
 func _on_ScoreTimer_timeout():
 	score += 1
 	$HUD.update_score(score)
+	print(str($LevelTimer.time_left))
+	progress = ($LevelTimer.wait_time - $LevelTimer.time_left)
+	$HUD.updateProgressBar(progress)
+	
 
 func _on_StartTimer_timeout():
 	$MobTimer.start()
 	$ScoreTimer.start()
+	$LevelTimer.start()
 
 func save():
 	var save_dict = highScore
@@ -113,3 +122,14 @@ func _on_PowerUp_timeOut():
 func _on_PowerSpawnTimer_timeout():
 	var pos = Vector2(rand_range(0, $Player.screensize.x - 1), rand_range(0, $Player.screensize.y - 1))
 	$PowerUp.spawn(pos)
+
+
+func _on_LevelTimer_timeout():
+	level += 1
+	$LevelTimer.wait_time += 5
+	$HUD.update_level(level)
+	print(str($LevelTimer.wait_time))
+	$HUD.updateProgressBarMax($LevelTimer.wait_time)
+	$HUD.updateProgressBar(0)
+	$LevelTimer.start()
+

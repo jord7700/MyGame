@@ -21,8 +21,8 @@ func _process(delta):
 	pass
 
 func show_message(text):
-	$MessageLabel.text = text
-	$MessageLabel.show()
+	$VBoxContainer/VBoxCenter/MessageLabel.text = text
+	$VBoxContainer/VBoxCenter/MessageLabel.show()
 	$MessageTimer.start()
 	
 func show_game_over():
@@ -30,23 +30,32 @@ func show_game_over():
 	gameStart = false
 	show_message("Game Over")
 	yield($MessageTimer, "timeout")
-	$StartButton.show()
-	$MessageLabel.text = "Dodge the\nCreeps!"
-	$MessageLabel.show()
+	$VBoxContainer/HBoxBottom/StartButton.show()
+	$VBoxContainer/VBoxCenter/MessageLabel.text = "Dodge the\nCreeps!"
+	$VBoxContainer/VBoxCenter/MessageLabel.show()
 	
 func update_score(score):
-	$ScoreLabel.text = str(score)
+	$VBoxContainer/HBoxTop/HBoxContainer/ScoreLabel.text = str(score)
 
 func update_highScore(highScore):
-	$HighScoreLabel.text = str(highScore)
+	$VBoxContainer/HBoxTop/HBoxContainer3/HighScore.text = str(highScore)
+
+func update_level(level):
+	$VBoxContainer/HBoxTop/HBoxContainer2/Level.text = str(level)
+	
+func updateProgressBar(progress):
+	$VBoxContainer/HBoxLevelBar/TextureProgress.value = progress
+
+func updateProgressBarMax(newMax):
+	$VBoxContainer/HBoxLevelBar/TextureProgress.max_value = newMax
 
 func _on_MessageTimer_timeout():
-	$MessageLabel.hide()
+	$VBoxContainer/VBoxCenter/MessageLabel.hide()
 
 
 
 func _on_StartButton_pressed():
-	$StartButton.hide()
+	$VBoxContainer/HBoxBottom/StartButton.hide()
 	gameStart = true
 	set_process(true)
 	emit_signal("start_game")
